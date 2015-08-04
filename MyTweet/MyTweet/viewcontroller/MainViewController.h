@@ -10,6 +10,8 @@
 
 @interface MainViewController : UIViewController
 
+@property (nonatomic ,assign) IBOutlet UIButton * loginButton;
+
 - (IBAction)onTwitterLogin:(id)sender;
 
 @end

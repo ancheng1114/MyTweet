@@ -7,7 +7,6 @@
 //
 
 #import "TweetViewController.h"
-#import "FHSTwitterEngine.h"
 
 @interface TweetViewController ()
 
@@ -50,20 +49,47 @@
     [_tweetArr removeAllObjects];
     
     [SVProgressHUD showWithStatus:@"Loading ..." maskType:SVProgressHUDMaskTypeClear];
-    [[FHSTwitterEngine sharedEngine]loadAccessToken];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
+  
+            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/home_timeline.json"];
+            AppDelegate * delegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
+            params[@"count"] = [NSString stringWithFormat:@"%d",30];
+            params[@"screen_name"] =  delegate.curAccount.username;
             
-            NSArray * timeLine = [[FHSTwitterEngine sharedEngine] getHomeTimelineSinceID:nil count:30];
-            for (NSDictionary *dic in timeLine)
-            {
-                Tweet *tweet = [Tweet new];
-                [tweet setDic:dic];
-                [_tweetArr addObject:tweet];
-            }
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:url                                      parameters:params];
+            [request setAccount:delegate.curAccount];
             
-            [SVProgressHUD dismiss];
-            [_tweetTableView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSURLRequest *request1 = request.preparedURLRequest;
+                AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request1];
+                op.responseSerializer = [AFJSONResponseSerializer serializer];
+                [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    [SVProgressHUD dismiss];
+                    NSLog(@"JSON: %@", responseObject);
+                    
+                    for (NSDictionary *dic in responseObject)
+                    {
+                        Tweet *tweet = [Tweet new];
+                        [tweet setDic:dic];
+                        [_tweetArr addObject:tweet];
+                    }
+                    
+                    [SVProgressHUD dismiss];
+                    [_tweetTableView reloadData];
+
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    [SVProgressHUD dismiss];
+                    NSLog(@"Error: %@", error);
+                }];
+                
+                [op start];
+                
+            });
             
         }
     });
@@ -83,24 +109,47 @@
     [alert addAction: [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *textField = alert.textFields[0];
         
-        [SVProgressHUD showWithStatus:@"Loading ..." maskType:SVProgressHUDMaskTypeClear];
         
-        [[FHSTwitterEngine sharedEngine]loadAccessToken];
+        [SVProgressHUD showWithStatus:@"Loading ..." maskType:SVProgressHUDMaskTypeClear];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @autoreleasepool {
                 
-                [_tweetArr removeAllObjects];
+                NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/users/search.json"];
+                AppDelegate * delegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+                NSDictionary *params = @{@"count":@(20).stringValue, @"q":textField.text };
+                SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:url                                      parameters:params];
+                [request setAccount:delegate.curAccount];
                 
-                NSArray * timeLine = [[FHSTwitterEngine sharedEngine] searchUsersWithQuery:textField.text andCount:20];
-                for (NSDictionary *dic in timeLine)
-                {
-                    Tweet *tweet = [Tweet new];
-                    [tweet setDic1:dic];
-                    [_tweetArr addObject:tweet];
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    NSURLRequest *request1 = request.preparedURLRequest;
+                    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request1];
+                    op.responseSerializer = [AFJSONResponseSerializer serializer];
+                    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        
+                        NSLog(@"JSON: %@", responseObject);
+                        
+                        [_tweetArr removeAllObjects];
+                        for (NSDictionary *dic in responseObject)
+                        {
+                            Tweet *tweet = [Tweet new];
+                            [tweet setDic1:dic];
+                            [_tweetArr addObject:tweet];
+                        }
+                        
+                        [SVProgressHUD dismiss];
+                        [_tweetTableView reloadData];
+                        
+                        
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        [SVProgressHUD dismiss];
+                        NSLog(@"Error: %@", error);
+                    }];
+                    
+                    [op start];
+                    
+                });
                 
-                [SVProgressHUD dismiss];
-                [_tweetTableView reloadData];
             }
         });
 

@@ -14,11 +14,11 @@
 		0415CCA31B6C720B00DB8428 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0415CCA21B6C720B00DB8428 /* Images.xcassets */; };
 		0415CCA61B6C720B00DB8428 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0415CCA41B6C720B00DB8428 /* LaunchScreen.xib */; };
 		0415CCB21B6C720B00DB8428 /* MyTweetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415CCB11B6C720B00DB8428 /* MyTweetTests.m */; };
+		04548BBF1B7079A70015F2A8 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04548BBE1B7079A70015F2A8 /* Accounts.framework */; };
+		04548BC11B7079AC0015F2A8 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04548BC01B7079AC0015F2A8 /* Social.framework */; };
 		0471D3801B6D96DB006AF2A2 /* TweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471D37F1B6D96DB006AF2A2 /* TweetViewController.m */; };
 		0471D3831B6D96E8006AF2A2 /* MytweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471D3821B6D96E8006AF2A2 /* MytweetViewController.m */; };
 		0471D38A1B6D9BB0006AF2A2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471D3891B6D9BB0006AF2A2 /* MainViewController.m */; };
-		0471D3901B6DA13F006AF2A2 /* FHSStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471D38D1B6DA13F006AF2A2 /* FHSStream.m */; };
-		0471D3911B6DA13F006AF2A2 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471D38F1B6DA13F006AF2A2 /* FHSTwitterEngine.m */; };
 		0471D3931B6DA192006AF2A2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471D3921B6DA192006AF2A2 /* SystemConfiguration.framework */; };
 		0471D3D61B6DCA59006AF2A2 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 0471D3D31B6DCA59006AF2A2 /* favorite.png */; };
 		0471D3D71B6DCA59006AF2A2 /* reply.png in Resources */ = {isa = PBXBuildFile; fileRef = 0471D3D41B6DCA59006AF2A2 /* reply.png */; };
@@ -55,16 +55,14 @@
 		0415CCAB1B6C720B00DB8428 /* MyTweetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyTweetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0415CCB01B6C720B00DB8428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0415CCB11B6C720B00DB8428 /* MyTweetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyTweetTests.m; sourceTree = "<group>"; };
+		04548BBE1B7079A70015F2A8 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		04548BC01B7079AC0015F2A8 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		0471D37E1B6D96DB006AF2A2 /* TweetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TweetViewController.h; path = viewcontroller/TweetViewController.h; sourceTree = "<group>"; };
 		0471D37F1B6D96DB006AF2A2 /* TweetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TweetViewController.m; path = viewcontroller/TweetViewController.m; sourceTree = "<group>"; };
 		0471D3811B6D96E8006AF2A2 /* MytweetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MytweetViewController.h; path = viewcontroller/MytweetViewController.h; sourceTree = "<group>"; };
 		0471D3821B6D96E8006AF2A2 /* MytweetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MytweetViewController.m; path = viewcontroller/MytweetViewController.m; sourceTree = "<group>"; };
 		0471D3881B6D9BB0006AF2A2 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = viewcontroller/MainViewController.h; sourceTree = "<group>"; };
 		0471D3891B6D9BB0006AF2A2 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = viewcontroller/MainViewController.m; sourceTree = "<group>"; };
-		0471D38C1B6DA13F006AF2A2 /* FHSStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHSStream.h; sourceTree = "<group>"; };
-		0471D38D1B6DA13F006AF2A2 /* FHSStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSStream.m; sourceTree = "<group>"; };
-		0471D38E1B6DA13F006AF2A2 /* FHSTwitterEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHSTwitterEngine.h; sourceTree = "<group>"; };
-		0471D38F1B6DA13F006AF2A2 /* FHSTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSTwitterEngine.m; sourceTree = "<group>"; };
 		0471D3921B6DA192006AF2A2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0471D3941B6DA6EC006AF2A2 /* MyTweet.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTweet.pch; sourceTree = "<group>"; };
 		0471D3D31B6DCA59006AF2A2 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = favorite.png; path = resource/images/favorite.png; sourceTree = "<group>"; };
@@ -92,6 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04548BC11B7079AC0015F2A8 /* Social.framework in Frameworks */,
+				04548BBF1B7079A70015F2A8 /* Accounts.framework in Frameworks */,
 				0471D3931B6DA192006AF2A2 /* SystemConfiguration.framework in Frameworks */,
 				AA03B6C60D91DC2823EBEDE9 /* Pods_MyTweet.framework in Frameworks */,
 			);
@@ -189,21 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				0471D3E91B6DEBD6006AF2A2 /* CoredataManager */,
-				0471D38B1B6DA13F006AF2A2 /* FHSTwitterEngine */,
 			);
 			name = control;
-			sourceTree = "<group>";
-		};
-		0471D38B1B6DA13F006AF2A2 /* FHSTwitterEngine */ = {
-			isa = PBXGroup;
-			children = (
-				0471D38C1B6DA13F006AF2A2 /* FHSStream.h */,
-				0471D38D1B6DA13F006AF2A2 /* FHSStream.m */,
-				0471D38E1B6DA13F006AF2A2 /* FHSTwitterEngine.h */,
-				0471D38F1B6DA13F006AF2A2 /* FHSTwitterEngine.m */,
-			);
-			name = FHSTwitterEngine;
-			path = control/FHSTwitterEngine;
 			sourceTree = "<group>";
 		};
 		0471D3D11B6DCA4A006AF2A2 /* resource */ = {
@@ -288,6 +275,8 @@
 		5741CE092F5AFE04120B5A56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04548BC01B7079AC0015F2A8 /* Social.framework */,
+				04548BBE1B7079A70015F2A8 /* Accounts.framework */,
 				0471D3921B6DA192006AF2A2 /* SystemConfiguration.framework */,
 				421DCA7844F1B43978DE0841 /* Pods_MyTweet.framework */,
 			);
@@ -453,13 +442,11 @@
 				0471D3E51B6DD458006AF2A2 /* Tweet.m in Sources */,
 				0471D3F31B6DEEBE006AF2A2 /* TTTAttributedLabel.m in Sources */,
 				0471D3DC1B6DCD01006AF2A2 /* TweetTableViewCell.m in Sources */,
-				0471D3901B6DA13F006AF2A2 /* FHSStream.m in Sources */,
 				0415CC981B6C720B00DB8428 /* AppDelegate.m in Sources */,
 				0471D38A1B6D9BB0006AF2A2 /* MainViewController.m in Sources */,
 				0471D3F61B6DF0A8006AF2A2 /* TweetEntity.m in Sources */,
 				0415CC951B6C720B00DB8428 /* main.m in Sources */,
 				0471D3E81B6DD552006AF2A2 /* TwitterUser.m in Sources */,
-				0471D3911B6DA13F006AF2A2 /* FHSTwitterEngine.m in Sources */,
 				0415CC9B1B6C720B00DB8428 /* MyTweet.xcdatamodeld in Sources */,
 				0471D3EC1B6DEBD6006AF2A2 /* CoredataManager.m in Sources */,
 			);

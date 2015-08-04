@@ -7,9 +7,17 @@
 //
 
 #import "MainViewController.h"
-#import "FHSTwitterEngine.h"
 
-@interface MainViewController () <FHSTwitterEngineAccessTokenDelegate>
+#define AccountTwitterAccessGranted @"TwitterAccessGranted"
+#define AccountTwitterSelectedIdentifier @"TwitterAccountSelectedIdentifier"
+
+@interface MainViewController ()
+{
+    
+    ACAccountStore *account;
+    NSArray * twitterAccounts;
+    ACAccount * selectedAccount;
+}
 
 @end
 
@@ -18,10 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [[FHSTwitterEngine sharedEngine]setDelegate:self];
-    [[FHSTwitterEngine sharedEngine]permanentlySetConsumerKey:@"K7mHPGrN7Wa6LNIyDRTYggLdT" andSecret:@"J3qV90jMeSmqOdSyzISl24MddXlKvbH8ckwSJplYikZtDmqHfx"];
-    [[FHSTwitterEngine sharedEngine]loadAccessToken];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,40 +45,101 @@
 
 - (IBAction)onTwitterLogin:(id)sender
 {
-    if ([[FHSTwitterEngine sharedEngine]isAuthorized])
+    
+    [self grantedWithTwitter];
+
+}
+
+-(void) grantedWithTwitter
+{
+    
+    if(account == nil)
+        account = [[ACAccountStore alloc] init];
+    ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    [account requestAccessToAccountsWithType:accountType options:nil
+                                  completion:^(BOOL granted, NSError *error)
+     {
+         if (granted)
+         {
+             twitterAccounts = [account accountsWithAccountType:accountType];
+             [self showAccountSelectionsSheet];
+             
+         }
+         else
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Twitter Error"
+                                                                     message:@"Please make sure you have a Twitter account set up in Settings. Also grant access to this app"
+                                                                    delegate:nil
+                                                           cancelButtonTitle:@"Dismiss"
+                                                           otherButtonTitles:nil];
+                 [alertView show];
+             });
+         }
+         
+     }];
+}
+
+-(void) showAccountSelectionsSheet
+{
+    if (twitterAccounts.count == 0)
     {
-        [self performSegueWithIdentifier:@"mainSegue" sender:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Twitter Error"
+                                                                message:@"Please make sure you have a Twitter account set up in Settings. Also grant access to this app"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Dismiss"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        });
+
     }
     else
     {
-        UIViewController *loginController = [[FHSTwitterEngine sharedEngine]loginControllerWithCompletionHandler:^(BOOL success) {
-            
-            if (success)
-            {
-                [self performSegueWithIdentifier:@"mainSegue" sender:nil];
-            }
-            else
-            {
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Twitter Login failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [av show];
-            }
-            
-            
-        }];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Accounts"
+                                                                                 message:@""
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
         
-        [self presentViewController:loginController animated:YES completion:nil];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:^(UIAlertAction *action)
+                                       {
+                                           NSLog(@"Cancel action");
+                                       }];
+        [alertController addAction:cancelAction];
+        
+        for (int i=0; i<twitterAccounts.count; i++) {
+            
+            ACAccount * account1 = [twitterAccounts objectAtIndex:i];
+            
+            UIAlertAction * menuAlert = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"@%@", account1.username]                                                             style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction *action)
+                                         {
+                                             selectedAccount = account1;
+                                             
+                                             AppDelegate * delegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+                                             delegate.curAccount = [selectedAccount copy];
+                                             
+                                             [self performSegueWithIdentifier:@"mainSegue" sender:nil];
+                                             
+                                         }];
+            
+            [alertController addAction:menuAlert];
+            
+        }
+        
+        UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+        if (popover)
+        {
+            
+            popover.sourceView = _loginButton;
+            popover.sourceRect = _loginButton.bounds;
+            popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        }
+        
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 
-}
-
-#pragma twitter delegate functions
-
-- (void)storeAccessToken:(NSString *)accessToken {
-    [[NSUserDefaults standardUserDefaults]setObject:accessToken forKey:@"accessToken"];
-}
-
-- (NSString *)loadAccessToken {
-    return [[NSUserDefaults standardUserDefaults]objectForKey:@"accessToken"];
 }
 
 @end
